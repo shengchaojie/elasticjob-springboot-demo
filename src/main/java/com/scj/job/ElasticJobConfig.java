@@ -26,6 +26,11 @@ public class ElasticJobConfig {
         return new ZookeeperConfiguration(elasticJobProperties.getServerLists(),elasticJobProperties.getNamespace());
     }
 
+    /**
+     * 需要调用init方法初始化CuratorFramework，打开到zookeeper的连接
+     * @param zookeeperConfiguration
+     * @return
+     */
     @Bean(initMethod = "init")
     public ZookeeperRegistryCenter registryCenter(ZookeeperConfiguration zookeeperConfiguration){
         return new ZookeeperRegistryCenter(zookeeperConfiguration);
