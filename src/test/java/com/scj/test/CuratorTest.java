@@ -5,6 +5,7 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.leader.LeaderLatch;
 import org.apache.curator.framework.recipes.leader.LeaderLatchListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.CreateMode;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,6 +26,15 @@ public class CuratorTest {
             client.create().forPath("/test");
         }
     }
+
+    @Test
+    public void createNode() throws Exception {
+        CuratorFramework client = CuratorFrameworkFactory.newClient("127.0.0.1:2181",new ExponentialBackoffRetry(1000,3));
+        client.start();
+        client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath("/d/e/f");
+        client.close();
+    }
+
 
     @Test
     public void leaderLatchTest() throws Exception {
